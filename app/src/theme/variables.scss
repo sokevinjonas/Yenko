@@ -1,0 +1,113 @@
+// Yenko theme — direction "Kente Pop" (see SPEC.md §11).
+// Gold primary (dark text on it, never white), deep green secondary, kente red accent, cream background.
+
+:root {
+  --yk-font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --yk-font-display: 'Bricolage Grotesque', 'DM Sans', system-ui, sans-serif;
+
+  --yk-gold: #f5a623;
+  --yk-gold-ink: #8a5a00;
+  --yk-gold-soft: #fdebc8;
+  --yk-green: #0b6e4f;
+  --yk-green-dark: #08523b;
+  --yk-red: #c21f1f;
+  --yk-blue: #1d4ed8;
+  --yk-blue-soft: #dce7fd;
+  --yk-leaf: #15803d;
+  --yk-leaf-soft: #dcf5e3;
+  --yk-cream: #fff9f0;
+  --yk-surface: #ffffff;
+  --yk-ink: #1f1a17;
+  --yk-ink-2: #5c4f46;
+  --yk-ink-3: #6b5e55;
+  --yk-line: #e9dcc8;
+  --yk-card-shadow: 0 2px 0 #f0e2cc;
+
+  --ion-font-family: var(--yk-font-body);
+  --ion-background-color: var(--yk-cream);
+  --ion-background-color-rgb: 255, 249, 240;
+  --ion-text-color: var(--yk-ink);
+  --ion-text-color-rgb: 31, 26, 23;
+  --ion-toolbar-background: var(--yk-green);
+  --ion-toolbar-color: #fff9f0;
+  --ion-tab-bar-background: var(--yk-surface);
+  --ion-tab-bar-color: var(--yk-ink-3);
+  --ion-tab-bar-color-selected: var(--yk-gold-ink);
+  --ion-item-background: var(--yk-surface);
+  --ion-border-color: var(--yk-line);
+  --ion-card-background: var(--yk-surface);
+
+  --ion-color-primary: #f5a623;
+  --ion-color-primary-rgb: 245, 166, 35;
+  --ion-color-primary-contrast: #1f1a17;
+  --ion-color-primary-contrast-rgb: 31, 26, 23;
+  --ion-color-primary-shade: #d8921f;
+  --ion-color-primary-tint: #f6af39;
+
+  --ion-color-secondary: #0b6e4f;
+  --ion-color-secondary-rgb: 11, 110, 79;
+  --ion-color-secondary-contrast: #fff9f0;
+  --ion-color-secondary-contrast-rgb: 255, 249, 240;
+  --ion-color-secondary-shade: #0a6146;
+  --ion-color-secondary-tint: #237d61;
+
+  --ion-color-tertiary: #1d4ed8;
+  --ion-color-tertiary-rgb: 29, 78, 216;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #1a45be;
+  --ion-color-tertiary-tint: #3460dc;
+
+  --ion-color-success: #15803d;
+  --ion-color-success-rgb: 21, 128, 61;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #127136;
+  --ion-color-success-tint: #2c8d50;
+
+  --ion-color-danger: #c21f1f;
+  --ion-color-danger-rgb: 194, 31, 31;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #ab1b1b;
+  --ion-color-danger-tint: #c83535;
+
+  --ion-color-medium: #6b5e55;
+  --ion-color-medium-rgb: 107, 94, 85;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #5e534b;
+  --ion-color-medium-tint: #7a6e66;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --yk-gold-ink: #f5b54a;
+    --yk-gold-soft: #3a2a10;
+    --yk-blue: #8fb0ff;
+    --yk-blue-soft: #1c2747;
+    --yk-leaf: #6ad08f;
+    --yk-leaf-soft: #15301f;
+    --yk-cream: #1a1410;
+    --yk-surface: #2a211b;
+    --yk-ink: #fff4e6;
+    --yk-ink-2: #d9c9b8;
+    --yk-ink-3: #b9a898;
+    --yk-line: #40342b;
+    --yk-card-shadow: 0 2px 0 #120d0a;
+
+    --ion-background-color: var(--yk-cream);
+    --ion-background-color-rgb: 26, 20, 16;
+    --ion-text-color: var(--yk-ink);
+    --ion-text-color-rgb: 255, 244, 230;
+    --ion-toolbar-background: #0a5a41;
+    --ion-tab-bar-background: var(--yk-surface);
+    --ion-tab-bar-color: var(--yk-ink-3);
+    --ion-item-background: var(--yk-surface);
+    --ion-card-background: var(--yk-surface);
+    --ion-border-color: var(--yk-line);
+    --ion-color-medium: #b9a898;
+    --ion-color-medium-rgb: 185, 168, 152;
+    --ion-color-medium-contrast: #1a1410;
+  }
+}

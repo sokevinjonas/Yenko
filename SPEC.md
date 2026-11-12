@@ -282,3 +282,17 @@ OTP SMS, géolocalisation, extension à d'autres campus, chat in-app.
 1. **Backend** : installation Laravel + Sanctum + Filament → migrations/modèles/seeders → auth → profil & vérification → plans & demandes → notifications & FCM → signalements → scheduler → admin Filament → tests Pest verts.
 2. **Frontend** : installation Ionic → thème & structure → auth & onboarding → Explore & détail → création/gestion → My Plans → notifications → profil → PWA/Capacitor → build OK.
 3. **README** avec les commandes de lancement.
+
+---
+
+## 14. Décisions prises pendant le développement
+
+- **Port de dev : 8010** (le 8000 est déjà utilisé sur la machine de dev).
+- **Genre non modifiable** une fois renseigné (protège les plans « women only ») ; seul l'admin peut le changer.
+- **Membre retiré** par l'organisateur : ne peut pas redemander à rejoindre ce plan (un refus simple le permet).
+- **Plans « women only »** : à l'édition, impossible de les activer si un membre accepté n'est pas une femme.
+- **Inscription** : le token est renvoyé dès l'inscription ; l'utilisateur non vérifié peut parcourir mais pas créer/rejoindre.
+- **Carte étudiante en attente** : l'utilisateur peut finir son profil et parcourir en attendant la validation.
+- **Photos de cartes** stockées en privé (disque `local`), servies à l'admin seulement via `/admin/card-photos/{id}`.
+- **Avatars** recadrés 256 px en WebP ; photos de carte réduites à 1400 px de large.
+- **Tests** : 53 tests Pest (API + admin) et 7 parcours Playwright de bout en bout.
