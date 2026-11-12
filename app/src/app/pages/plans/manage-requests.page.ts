@@ -7,8 +7,9 @@ import type { RefresherCustomEvent } from '@ionic/angular';
 
 import { ApiService } from '../../core/api.service';
 import { AuthService } from '../../core/auth.service';
-import { openExternal, prettyPhone, timeAgo, whatsappLink } from '../../core/format';
+import { prettyPhone, timeAgo, whatsappLink } from '../../core/format';
 import type { PlanRequest } from '../../core/models';
+import { openExternal, tap } from '../../core/native';
 import { UiService } from '../../core/ui.service';
 import { AvatarComponent } from '../../shared/avatar.component';
 import { EmptyStateComponent } from '../../shared/empty-state.component';
@@ -118,6 +119,7 @@ export class ManageRequestsPage {
   async act(r: PlanRequest, action: 'accept' | 'reject' | 'remove'): Promise<void> {
     try {
       const updated = await this.api.post<PlanRequest>(`requests/${r.id}/${action}`);
+      if (action === 'accept') tap();
       this.requests.update((list) =>
         ['rejected', 'removed'].includes(updated.status) ? list.filter((x) => x.id !== r.id) : list.map((x) => (x.id === r.id ? updated : x)),
       );
@@ -130,7 +132,7 @@ export class ManageRequestsPage {
   }
 
   chat(phone: string): void {
-    openExternal(whatsappLink(phone, `Hi, it's ${this.auth.user()?.name ?? ''} from Yenko about our plan.`));
+    void openExternal(whatsappLink(phone, `Hi, it's ${this.auth.user()?.name ?? ''} from Yenko about our plan.`));
   }
 
   async more(r: PlanRequest): Promise<void> {

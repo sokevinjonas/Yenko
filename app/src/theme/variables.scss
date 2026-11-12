@@ -106,6 +106,13 @@
     --ion-item-background: var(--yk-surface);
     --ion-card-background: var(--yk-surface);
     --ion-border-color: var(--yk-line);
+    // Lighter green so outline buttons and links stay readable on dark backgrounds.
+    --ion-color-secondary: #4cc597;
+    --ion-color-secondary-rgb: 76, 197, 151;
+    --ion-color-secondary-contrast: #0d1f17;
+    --ion-color-secondary-contrast-rgb: 13, 31, 23;
+    --ion-color-secondary-shade: #43ad85;
+    --ion-color-secondary-tint: #5ecba1;
     --ion-color-medium: #b9a898;
     --ion-color-medium-rgb: 185, 168, 152;
     --ion-color-medium-contrast: #1a1410;

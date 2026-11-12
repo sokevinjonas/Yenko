@@ -8,8 +8,10 @@ import type { RefresherCustomEvent } from '@ionic/angular';
 
 import { ApiService } from '../../core/api.service';
 import { AuthService } from '../../core/auth.service';
-import { CATEGORIES, PLAN_TYPES, cedis, formatWhen, openExternal, prettyPhone, relativeDay, whatsappLink } from '../../core/format';
+import { CATEGORIES, PLAN_TYPES, cedis, formatWhen, prettyPhone, relativeDay, whatsappLink } from '../../core/format';
 import type { Member, Plan } from '../../core/models';
+import { openExternal, tap } from '../../core/native';
+import { sharePlan } from '../../core/share';
 import { UiService } from '../../core/ui.service';
 import { AvatarComponent } from '../../shared/avatar.component';
 
@@ -26,9 +28,14 @@ import { reportUser } from './report';
       <ion-toolbar>
         <ion-buttons slot="start"><ion-back-button defaultHref="/tabs/explore" text=""></ion-back-button></ion-buttons>
         <ion-title>{{ plan() ? meta().label : '' }}</ion-title>
-        @if (plan() && !plan()!.viewer.is_creator) {
+        @if (plan()) {
           <ion-buttons slot="end">
-            <ion-button aria-label="Report the organiser" (click)="report(plan()!.creator)"><ion-icon slot="icon-only" name="flag-outline"></ion-icon></ion-button>
+            @if (isActive()) {
+              <ion-button aria-label="Share this plan" (click)="share()"><ion-icon slot="icon-only" name="share-social-outline"></ion-icon></ion-button>
+            }
+            @if (!plan()!.viewer.is_creator) {
+              <ion-button aria-label="Report the organiser" (click)="report(plan()!.creator)"><ion-icon slot="icon-only" name="flag-outline"></ion-icon></ion-button>
+            }
           </ion-buttons>
         }
       </ion-toolbar>
@@ -94,6 +101,9 @@ import { reportUser } from './report';
                 <ion-button expand="block" [routerLink]="['/plans', p.id, 'requests']">
                   Manage requests
                   @if (p.pending_requests_count) { <ion-badge color="secondary" style="margin-left: 8px">{{ p.pending_requests_count }}</ion-badge> }
+                </ion-button>
+                <ion-button expand="block" fill="outline" color="secondary" (click)="share()">
+                  <ion-icon slot="start" name="share-social-outline" aria-hidden="true"></ion-icon>Share in your WhatsApp groups
                 </ion-button>
                 <ion-button expand="block" fill="outline" color="secondary" [routerLink]="['/plans', p.id, 'edit']">Edit plan</ion-button>
               </div>
@@ -260,6 +270,7 @@ export class PlanDetailPage {
     try {
       const updated = await this.api.post<Plan>(`plans/${p.id}/join`, { message });
       this.plan.set(updated);
+      tap();
       await this.ui.toast(updated.viewer.request_status === 'accepted' ? "You're in! Time to link up." : 'Request sent!', 'success');
     } catch (e) {
       await this.ui.error(e);
@@ -294,11 +305,15 @@ export class PlanDetailPage {
   chat(phone: string): void {
     const p = this.plan()!;
     const me = this.auth.user()?.name ?? '';
-    openExternal(whatsappLink(phone, `Hi, I'm ${me} from Yenko about "${p.title}".`));
+    void openExternal(whatsappLink(phone, `Hi, I'm ${me} from Yenko about "${p.title}".`));
   }
 
   open(url: string): void {
-    openExternal(url);
+    void openExternal(url);
+  }
+
+  async share(): Promise<void> {
+    await sharePlan(this.plan()!);
   }
 
   report(user: Pick<Member, 'id' | 'name'>): void {

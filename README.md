@@ -49,6 +49,8 @@ Demo accounts (after `DemoSeeder`): student IDs `10900001` (Kofi), `10900002` (A
 | `YENKO_EMAIL_DOMAIN` | Allowed student email domain (default `st.ug.edu.gh`) |
 | `CORS_ALLOWED_ORIGINS` | Origins allowed to call the API (the app's URLs) |
 | `FIREBASE_CREDENTIALS` | Path to a Firebase service-account JSON — empty = push disabled |
+| `YENKO_AUTH_PER_MINUTE` | Login/register/reset attempts per minute per IP + account (keep **5** in production) |
+| `YENKO_API_PER_MINUTE` | API requests per minute per user (default 120) |
 
 Business limits (seats, active plans, code expiry, auto-suspension threshold…) live in `backend/config/yenko.php`.
 
@@ -62,11 +64,13 @@ npm run build        # production build in www/ (PWA)
 npx eslint src       # lint
 ```
 
-End-to-end tests (backend must run on :8010 with fresh demo data):
+End-to-end tests — 16 flows on a mobile viewport with a French browser locale (the app must stay in English).
+The backend must run on :8010 with fresh demo data and high rate limits (`YENKO_AUTH_PER_MINUTE=1000` in `.env`):
 
 ```bash
 cd backend && php artisan migrate:fresh --seed && php artisan db:seed --class=DemoSeeder && php artisan serve --port=8010
 cd app && npx playwright test        # screenshots in e2e/screenshots/
+# reuse an already downloaded Chromium: YK_CHROME=~/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome npx playwright test
 ```
 
 Before a production build, set `apiUrl` in `app/src/environments/environment.prod.ts`.
@@ -82,6 +86,9 @@ npx cap add android
 npm run build && npx cap sync android
 npx cap open android
 ```
+
+To check on a real phone once Android is added: WhatsApp buttons open WhatsApp (App Launcher plugin),
+green status bar, hardware back button, keyboard not hiding form fields, photo upload from the camera.
 
 ### Push notifications (later)
 

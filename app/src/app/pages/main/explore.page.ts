@@ -69,9 +69,14 @@ import { PlanCardComponent } from '../../shared/plan-card.component';
           @for (p of plans(); track p.id) {
             <yk-plan-card [plan]="p" />
           } @empty {
+            @if (failed()) {
+              <yk-empty-state icon="cloud-offline-outline" title="Network dey play."
+                text="We couldn't load the plans. Check your connection and try again." actionText="Try again" (action)="reload()" />
+            } @else {
             <yk-empty-state icon="sparkles-outline" title="Chale, no plans yet."
               [text]="filterCount() || q || type() ? 'Nothing matches. Try other filters.' : 'Be the first — create a plan and others will join. Yenko!'"
               actionText="Create a plan" (action)="router.navigateByUrl('/tabs/create')" />
+            }
           }
         }
       </div>
@@ -93,7 +98,7 @@ import { PlanCardComponent } from '../../shared/plan-card.component';
                 </ion-select>
               </div>
               <span class="yk-label">Day</span>
-              <ion-datetime presentation="date" [min]="today" [(ngModel)]="date" style="margin-bottom: 12px; border-radius: 16px"></ion-datetime>
+              <ion-datetime locale="en-GB" presentation="date" [min]="today" [(ngModel)]="date" style="margin-bottom: 12px; border-radius: 16px"></ion-datetime>
               <ion-toggle [(ngModel)]="womenOnly" style="margin: 8px 4px 20px; width: calc(100% - 8px)">Women-only plans</ion-toggle>
               <div class="yk-actions">
                 <ion-button expand="block" (click)="applyFilters()">Show plans</ion-button>
@@ -132,6 +137,7 @@ export class ExplorePage implements OnInit {
   readonly type = signal<PlanType | null>(null);
   readonly plans = signal<Plan[]>([]);
   readonly loading = signal(true);
+  readonly failed = signal(false);
   readonly page = signal(1);
   readonly lastPage = signal(1);
   readonly filtersOpen = signal(false);
@@ -173,7 +179,11 @@ export class ExplorePage implements OnInit {
       this.plans.set(res.data);
       this.page.set(1);
       this.lastPage.set(res.meta.last_page);
+      this.failed.set(false);
     } catch (e) {
+      // Changing a filter offline: don't leave the previous filter's plans on screen.
+      if (showSkeleton) this.plans.set([]);
+      this.failed.set(this.plans().length === 0);
       await this.ui.error(e);
     } finally {
       this.loading.set(false);

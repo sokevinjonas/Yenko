@@ -27,6 +27,12 @@ return [
         'auto_suspend_threshold' => 3,
     ],
 
+    // Requests per minute. Auth = login/register/reset attempts per IP + account (brute-force protection).
+    'rate_limits' => [
+        'auth' => env('YENKO_AUTH_PER_MINUTE', 5),
+        'api' => env('YENKO_API_PER_MINUTE', 120),
+    ],
+
     'firebase' => [
         'credentials' => env('FIREBASE_CREDENTIALS'),
     ],

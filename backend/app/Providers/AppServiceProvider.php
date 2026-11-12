@@ -18,11 +18,11 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        RateLimiter::for('auth', fn (Request $request) => Limit::perMinute(5)->by(
+        RateLimiter::for('auth', fn (Request $request) => Limit::perMinute((int) config('yenko.rate_limits.auth'))->by(
             $request->ip().'|'.Str::lower((string) ($request->input('login') ?? $request->input('email')))
         ));
 
-        RateLimiter::for('api', fn (Request $request) => Limit::perMinute(60)->by(
+        RateLimiter::for('api', fn (Request $request) => Limit::perMinute((int) config('yenko.rate_limits.api'))->by(
             $request->user()?->id ?: $request->ip()
         ));
 

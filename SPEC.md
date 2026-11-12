@@ -295,4 +295,11 @@ OTP SMS, géolocalisation, extension à d'autres campus, chat in-app.
 - **Carte étudiante en attente** : l'utilisateur peut finir son profil et parcourir en attendant la validation.
 - **Photos de cartes** stockées en privé (disque `local`), servies à l'admin seulement via `/admin/card-photos/{id}`.
 - **Avatars** recadrés 256 px en WebP ; photos de carte réduites à 1400 px de large.
-- **Tests** : 53 tests Pest (API + admin) et 7 parcours Playwright de bout en bout.
+- **Tests** : 53 tests Pest (API + admin) et 16 parcours Playwright de bout en bout (navigateur en français).
+- **Responsive** : barre d'onglets sur mobile, grille de cartes dès 768 px, barre latérale dès 992 px.
+- **Photos compressées dans l'app** avant envoi (avatar 600 px, carte 1600 px, JPEG).
+- **Hors ligne** : bandeau, dernières réponses API gardées en cache local (vidé à la déconnexion), état « Try again ».
+- **Partage d'un plan** : feuille de partage du système, sinon WhatsApp ; un lien partagé ouvert sans être connecté
+  ramène sur le plan après connexion.
+- **PWA** : message « nouvelle version » avec bouton Recharger.
+- **Limites de requêtes** réglables (`YENKO_AUTH_PER_MINUTE`, `YENKO_API_PER_MINUTE`).

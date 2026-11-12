@@ -7,6 +7,7 @@ import { NavController,
 
 import { ApiService } from '../../core/api.service';
 import { AuthService } from '../../core/auth.service';
+import { compressImage } from '../../core/image';
 import type { Gender, Me } from '../../core/models';
 import { ReferenceService } from '../../core/reference.service';
 import { UiService } from '../../core/ui.service';
@@ -100,7 +101,8 @@ export class EditProfilePage implements OnInit {
     if (!file) return;
     this.uploading.set(true);
     try {
-      this.auth.setUser(await this.api.upload<Me>('me/avatar', 'avatar', file, file.name));
+      const small = await compressImage(file, 600, 0.85);
+      this.auth.setUser(await this.api.upload<Me>('me/avatar', 'avatar', small, small.name));
     } catch (e) {
       await this.ui.error(e);
     } finally {

@@ -40,6 +40,8 @@ import {
   shieldCheckmarkOutline,
   sparklesOutline,
   timeOutline,
+  shareSocialOutline,
+  cloudOfflineOutline,
 } from 'ionicons/icons';
 
 /** Register every icon the app uses (standalone Ionic needs explicit registration). */
@@ -85,5 +87,7 @@ export function registerIcons(): void {
     shieldCheckmarkOutline,
     sparklesOutline,
     timeOutline,
+    shareSocialOutline,
+    cloudOfflineOutline,
   });
 }

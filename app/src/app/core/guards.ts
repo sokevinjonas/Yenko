@@ -7,11 +7,13 @@ import { AuthService } from './auth.service';
 // inject() must run before any await: grab services first.
 
 /** Logged-in users only. */
-export const authGuard: CanActivateFn = async () => {
+export const authGuard: CanActivateFn = async (_route, state) => {
   const auth = inject(AuthService);
   const router = inject(Router);
   await auth.init();
-  return auth.isLoggedIn() ? true : router.parseUrl('/welcome');
+  if (auth.isLoggedIn()) return true;
+  auth.rememberUrl(state.url);
+  return router.parseUrl('/welcome');
 };
 
 /** Logged-out users only (welcome, login, register…). */
@@ -23,11 +25,12 @@ export const guestGuard: CanActivateFn = async () => {
 };
 
 /** Main app: send users who are still onboarding to the right step. */
-export const onboardedGuard: CanActivateFn = async () => {
+export const onboardedGuard: CanActivateFn = async (_route, state) => {
   const auth = inject(AuthService);
   const router = inject(Router);
   await auth.init();
   if (!auth.isLoggedIn()) {
+    auth.rememberUrl(state.url);
     return router.parseUrl('/welcome');
   }
   const next = auth.nextRoute();

@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
@@ -90,7 +90,7 @@ const MAX_SEATS: Record<PlanType, number> = { ride: 10, study: 50, activity: 50 
           <ion-datetime-button datetime="yk-starts-at"></ion-datetime-button>
           <ion-modal [keepContentsMounted]="true">
             <ng-template>
-              <ion-datetime id="yk-starts-at" presentation="date-time" [min]="minDate" [max]="maxDate" [minuteValues]="minutes"
+              <ion-datetime id="yk-starts-at" locale="en-GB" presentation="date-time" [min]="minDate" [max]="maxDate" [minuteValues]="minutes"
                 name="starts_at" [(ngModel)]="form.starts_at" [showDefaultButtons]="true" hourCycle="h23"></ion-datetime>
             </ng-template>
           </ion-modal>
@@ -162,6 +162,8 @@ export class PlanFormPage {
   private auth = inject(AuthService);
   private ui = inject(UiService);
   private router = inject(Router);
+  /** The app is zoneless: tell Angular when the plain form object changes after an await. */
+  private cdr = inject(ChangeDetectorRef);
 
   readonly types = PLAN_TYPES;
   readonly typeList: PlanType[] = ['ride', 'study', 'activity'];
@@ -237,6 +239,7 @@ export class PlanFormPage {
         : await this.api.post<Plan>('plans', body);
       await this.ui.toast(this.isEdit() ? 'Plan updated.' : 'Your plan is live! 🎉', 'success');
       this.form = this.blank();
+      this.cdr.markForCheck();
       await this.router.navigateByUrl(`/plans/${plan.id}`, { replaceUrl: this.isEdit() });
     } catch (e) {
       this.errors.set(this.ui.fieldErrors(e));
@@ -256,6 +259,7 @@ export class PlanFormPage {
         auto_accept: p.auto_accept, whatsapp_group_link: p.contacts?.whatsapp_group_link ?? null,
         destination_id: p.destination?.id ?? null, price_per_person: p.price_per_person, course: p.course, category: p.category,
       };
+      this.cdr.markForCheck();
     } catch (e) {
       await this.ui.error(e);
     }

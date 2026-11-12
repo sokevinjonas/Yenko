@@ -6,6 +6,7 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonInput, IonSegment, Ion
 
 import { ApiService } from '../../core/api.service';
 import { AuthService } from '../../core/auth.service';
+import { compressImage } from '../../core/image';
 import type { Gender, Me } from '../../core/models';
 import { ReferenceService } from '../../core/reference.service';
 import { UiService } from '../../core/ui.service';
@@ -103,7 +104,8 @@ export class CompleteProfilePage implements OnInit {
     if (!file) return;
     this.uploading.set(true);
     try {
-      this.auth.setUser(await this.api.upload<Me>('me/avatar', 'avatar', file, file.name));
+      const small = await compressImage(file, 600, 0.85);
+      this.auth.setUser(await this.api.upload<Me>('me/avatar', 'avatar', small, small.name));
     } catch (e) {
       await this.ui.error(e);
     } finally {
@@ -124,7 +126,7 @@ export class CompleteProfilePage implements OnInit {
       const body: Record<string, unknown> = { hall_id: this.hallId, whatsapp: this.whatsapp.trim() };
       if (!this.lockedGender()) body['gender'] = this.gender;
       this.auth.setUser(await this.api.put<Me>('me', body));
-      await this.router.navigateByUrl('/tabs/explore', { replaceUrl: true });
+      await this.router.navigateByUrl(this.auth.afterAuthRoute(), { replaceUrl: true });
     } catch (e) {
       this.errors.set(this.ui.fieldErrors(e));
       if (!Object.keys(this.errors()).length) await this.ui.error(e);

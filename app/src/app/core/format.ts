@@ -80,10 +80,6 @@ export function prettyPhone(e164: string | null): string {
   return m ? `+233 ${m[1]} ${m[2]} ${m[3]}` : e164;
 }
 
-export function openExternal(url: string): void {
-  window.open(url, '_blank', 'noopener');
-}
-
 /** Local "YYYY-MM-DDTHH:mm" (no timezone) for ion-datetime, in Accra time. */
 export function toLocalInput(date: Date): string {
   const parts = new Intl.DateTimeFormat('en-CA', {

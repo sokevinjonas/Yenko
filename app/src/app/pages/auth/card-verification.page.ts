@@ -5,6 +5,7 @@ import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, I
 
 import { ApiService } from '../../core/api.service';
 import { AuthService } from '../../core/auth.service';
+import { compressImage } from '../../core/image';
 import type { CardVerification } from '../../core/models';
 import { UiService } from '../../core/ui.service';
 
@@ -83,8 +84,11 @@ export class CardVerificationPage implements OnInit {
   }
 
   async send(): Promise<void> {
-    const file = this.photo();
-    if (!file) return;
+    const original = this.photo();
+    if (!original) return;
+    this.busy.set(true);
+    const file = await compressImage(original, 1600, 0.85);
+    this.busy.set(false);
     if (file.size > 5 * 1024 * 1024) {
       await this.ui.toast('This photo is too big (max 5 MB).', 'danger');
       return;
@@ -102,6 +106,8 @@ export class CardVerificationPage implements OnInit {
   }
 
   async continue(): Promise<void> {
-    await this.router.navigateByUrl(this.auth.nextRoute(), { replaceUrl: true });
+    // Make sure we route with the latest account state (card now pending).
+    await this.auth.refresh().catch(() => undefined);
+    await this.router.navigateByUrl(this.auth.afterAuthRoute(), { replaceUrl: true });
   }
 }

@@ -15,6 +15,8 @@ export class AuthService {
   readonly isLoggedIn = computed(() => !!this.token());
 
   private readyPromise: Promise<void> | null = null;
+  /** Page the user tried to open before logging in (e.g. a shared plan link). */
+  private pendingUrl: string | null = null;
 
   /** Restore the session once at startup. */
   init(): Promise<void> {
@@ -63,9 +65,25 @@ export class AuthService {
   }
 
   async clearSession(): Promise<void> {
+    this.api.clearCache();
     this.token.set(null);
     this.user.set(null);
     await Preferences.remove({ key: TOKEN_KEY });
+  }
+
+  rememberUrl(url: string): void {
+    if (url && url !== '/' && !url.startsWith('/welcome')) this.pendingUrl = url;
+  }
+
+  /** After login/onboarding: the page they wanted, or the next onboarding step. */
+  afterAuthRoute(): string {
+    const next = this.nextRoute();
+    if (next === '/tabs/explore' && this.pendingUrl) {
+      const url = this.pendingUrl;
+      this.pendingUrl = null;
+      return url;
+    }
+    return next;
   }
 
   /** Where the user should be, given how far they are in onboarding. */

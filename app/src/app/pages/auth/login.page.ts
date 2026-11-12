@@ -71,7 +71,7 @@ export class LoginPage {
     try {
       await this.auth.login(this.login.trim(), this.password);
       void this.push.register();
-      await this.router.navigateByUrl(this.auth.nextRoute(), { replaceUrl: true });
+      await this.router.navigateByUrl(this.auth.afterAuthRoute(), { replaceUrl: true });
     } catch (e) {
       this.errors.set(this.ui.fieldErrors(e));
       if (!Object.keys(this.errors()).length) await this.ui.error(e);

@@ -81,7 +81,7 @@ export class VerifyEmailPage implements OnDestroy {
     try {
       this.auth.setUser(await this.api.post<Me>('auth/verify-email', { code }));
       await this.ui.toast("You're verified! 🎉", 'success');
-      await this.router.navigateByUrl(this.auth.nextRoute(), { replaceUrl: true });
+      await this.router.navigateByUrl(this.auth.afterAuthRoute(), { replaceUrl: true });
     } catch (e) {
       this.error.set(this.ui.fieldErrors(e)['code'] ?? this.ui.message(e));
     } finally {
