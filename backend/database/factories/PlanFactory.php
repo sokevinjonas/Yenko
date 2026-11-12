@@ -21,7 +21,7 @@ class PlanFactory extends Factory
             'user_id' => User::factory()->participant(),
             'type' => PlanType::Ride,
             'title' => 'Ride to '.fake()->city(),
-            'description' => fake()->sentence(),
+            'description' => null,
             'destination_id' => Destination::factory(),
             'meeting_point' => 'Main Gate',
             'starts_at' => now()->addDays(2)->setTime(9, 0),
