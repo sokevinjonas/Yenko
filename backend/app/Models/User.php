@@ -23,7 +23,9 @@ class User extends Authenticatable implements FilamentUser, HasName
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     public const BLOCK_NOT_VERIFIED = 'not_verified';
+
     public const BLOCK_PROFILE_INCOMPLETE = 'profile_incomplete';
+
     public const BLOCK_SUSPENDED = 'suspended';
 
     protected $fillable = [

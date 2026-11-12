@@ -3,6 +3,7 @@
 use App\Models\Plan;
 use App\Models\PlanRequest;
 use App\Models\User;
+use App\Notifications\YenkoNotification;
 use App\Services\PlanService;
 
 it('suspends a user after three different reports', function () {
@@ -50,7 +51,7 @@ it('lists and reads notifications', function () {
     actingAsUser($plan->user);
     PlanRequest::factory()->for($plan)->create();
     app(PlanService::class)->join(Plan::factory()->create(), User::factory()->participant()->create());
-    $plan->user->notify(new \App\Notifications\YenkoNotification('request_received', 'Hi', 'Body', $plan->id));
+    $plan->user->notify(new YenkoNotification('request_received', 'Hi', 'Body', $plan->id));
 
     $this->getJson('/api/v1/notifications/unread-count')->assertJsonPath('count', 1);
     $id = $this->getJson('/api/v1/notifications')->assertOk()->json('data.0.id');

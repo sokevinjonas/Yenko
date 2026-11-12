@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\ActivityCategory;
+use App\Enums\Gender;
 use App\Enums\PlanType;
 use App\Models\Destination;
 use App\Models\Plan;
@@ -47,6 +48,7 @@ class DemoSeeder extends Seeder
 
         PlanRequest::factory()->for($p4)->for($kofi)->accepted()->create();
         PlanRequest::factory()->for($p4)->for($others[2])->create(['message' => 'Can I join? I have the past questions.']);
-        PlanRequest::factory()->for($p1)->for($others->firstWhere('gender', \App\Enums\Gender::Female) ?? $ama)->create();
+        $woman = $others->firstWhere('gender', Gender::Female) ?? User::factory()->female()->create();
+        PlanRequest::factory()->for($p1)->for($woman)->create(['message' => 'Going to the airport too!']);
     }
 }
