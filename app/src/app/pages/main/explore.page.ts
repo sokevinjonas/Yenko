@@ -80,7 +80,7 @@ import { PlanCardComponent } from '../../shared/plan-card.component';
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
       </ion-infinite-scroll>
 
-      <ion-modal [isOpen]="filtersOpen()" (didDismiss)="filtersOpen.set(false)" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.75, 1]">
+      <ion-modal class="yk-sheet" [isOpen]="filtersOpen()" (didDismiss)="filtersOpen.set(false)" [initialBreakpoint]="isWide ? undefined : 0.75" [breakpoints]="isWide ? undefined : [0, 0.75, 1]">
         <ng-template>
           <ion-content>
             <div class="yk-page">
@@ -121,6 +121,8 @@ export class ExplorePage implements OnInit {
     { value: 'activity', label: 'Activities' },
   ];
   readonly today = new Date().toISOString().slice(0, 10);
+  /** Tablets and desktop show filters as a centred dialog instead of a bottom sheet. */
+  readonly isWide = window.matchMedia('(min-width: 768px)').matches;
 
   q = '';
   destinationId: number | null = null;

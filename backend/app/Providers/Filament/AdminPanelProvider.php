@@ -27,6 +27,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->profile()
             ->brandName('Yenko Admin')
             ->navigationGroups(['Community', 'Activity', 'Reference data'])
             ->colors([

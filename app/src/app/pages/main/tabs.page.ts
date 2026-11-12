@@ -3,11 +3,12 @@ import { IonBadge, IonIcon, IonLabel, IonTabBar, IonTabButton, IonTabs } from '@
 
 import { NotificationsService } from '../../core/notifications.service';
 
+/** Bottom tab bar on phones and tablets (hidden on desktop, where the side navigation is used). */
 @Component({
   selector: 'yk-tabs',
   imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonBadge],
   template: `
-    <ion-tabs>
+    <ion-tabs class="yk-tabs">
       <ion-tab-bar slot="bottom">
         <ion-tab-button tab="explore" href="/tabs/explore">
           <ion-icon name="compass-outline" aria-hidden="true"></ion-icon>

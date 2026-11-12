@@ -605,6 +605,24 @@ ion-select.yk-input {
   }
 }
 
+.yk-welcome-cta {
+  display: none;
+  margin: 0 0 6px;
+  color: var(--yk-ink);
+  h2 {
+    margin: 0 0 6px;
+    font-size: 28px;
+  }
+  p {
+    margin: 0 0 14px;
+    color: var(--yk-ink-2);
+  }
+}
+
+ion-datetime-button {
+  justify-content: flex-start;
+}
+
 .yk-code-input {
   --background: var(--yk-surface);
   font-size: 30px;
@@ -719,5 +737,251 @@ ion-tab-bar {
     font-size: 12px;
     color: var(--yk-ink-3);
     margin-top: 2px;
+  }
+}
+
+// ===========================================================================
+// Responsive: tablets (≥ 768 px) and desktop / web (≥ 992 px)
+// ===========================================================================
+
+:root {
+  // Side padding that keeps content in a centred column on wide screens.
+  --yk-gutter: max(20px, calc((100% - 1120px) / 2));
+}
+
+.yk-sidenav {
+  display: none;
+}
+
+// Content blocks of the tab pages follow the centred column.
+.yk-hero,
+.yk-chips,
+.yk-section-title,
+.yk-list {
+  padding-left: var(--yk-gutter);
+  padding-right: var(--yk-gutter);
+}
+.yk-banner {
+  margin-left: var(--yk-gutter);
+  margin-right: var(--yk-gutter);
+}
+.yk-segment {
+  margin-left: var(--yk-gutter);
+  margin-right: var(--yk-gutter);
+}
+
+@media (min-width: 768px) {
+  .yk-segment {
+    max-width: 520px;
+  }
+
+  // Plan cards in a grid.
+  .yk-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    align-items: start;
+    gap: 18px;
+    > .yk-empty,
+    > yk-empty-state {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .yk-page {
+    padding: 28px 24px;
+    max-width: 720px;
+  }
+
+  .yk-hero {
+    padding-top: calc(28px + var(--ion-safe-area-top, 0px));
+    padding-bottom: 28px;
+    .yk-hero-title {
+      font-size: 34px;
+    }
+    ion-searchbar {
+      max-width: 560px;
+    }
+  }
+
+  .yk-notif {
+    padding-left: var(--yk-gutter);
+    padding-right: var(--yk-gutter);
+  }
+
+  .yk-profile-head {
+    padding: 36px 20px 34px;
+  }
+
+  // Bottom sheet → centred dialog.
+  ion-modal.yk-sheet {
+    --width: 520px;
+    --height: auto;
+    --max-height: 90vh;
+    --border-radius: 24px;
+  }
+
+  // Welcome: two columns (story on the left, actions on the right).
+  .yk-welcome {
+    flex-direction: row;
+    .yk-welcome-main {
+      padding: 64px 56px;
+    }
+    .yk-logo {
+      font-size: 88px;
+    }
+    .yk-welcome-title {
+      font-size: 44px;
+    }
+    > .yk-kente {
+      width: 12px;
+      height: auto;
+      background: repeating-linear-gradient(
+        180deg,
+        #f5a623 0 18px,
+        #1f1a17 18px 22px,
+        #c21f1f 22px 32px,
+        #1f1a17 32px 36px,
+        #0b6e4f 36px 50px,
+        #1f1a17 50px 54px
+      );
+    }
+    .yk-welcome-cta {
+      display: block;
+    }
+    .yk-welcome-actions {
+      width: min(440px, 42%);
+      justify-content: center;
+      padding: 48px 40px;
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  // Side navigation replaces the bottom tab bar.
+  .yk-sidenav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 248px;
+    padding: 24px 16px;
+    box-sizing: border-box;
+    background: var(--yk-green);
+    color: #fff9f0;
+    z-index: 10;
+  }
+  .yk-sidenav-logo {
+    color: #fff9f0;
+    text-decoration: none;
+    font-size: 36px;
+    margin: 4px 12px 22px;
+  }
+  .yk-sidenav-create {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 48px;
+    margin: 0 4px 18px;
+    border-radius: 999px;
+    background: var(--yk-gold);
+    color: #1f1a17;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.18);
+    ion-icon {
+      font-size: 22px;
+    }
+  }
+  .yk-sidenav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    color: rgba(255, 249, 240, 0.85);
+    text-decoration: none;
+    font-weight: 600;
+    ion-icon {
+      font-size: 22px;
+    }
+    &:hover {
+      background: rgba(255, 249, 240, 0.08);
+    }
+    &.active {
+      background: rgba(255, 249, 240, 0.16);
+      color: #ffffff;
+      ion-icon {
+        color: var(--yk-gold);
+      }
+    }
+  }
+  .yk-sidenav-badge {
+    margin-left: auto;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 11px;
+    background: var(--yk-gold);
+    color: #1f1a17;
+    font-size: 12px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .yk-sidenav-kente {
+    margin: auto -16px 16px;
+  }
+  .yk-sidenav-me {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 14px;
+    color: #fff9f0;
+    text-decoration: none;
+    span {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    strong,
+    small {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    small {
+      opacity: 0.8;
+    }
+    &:hover {
+      background: rgba(255, 249, 240, 0.08);
+    }
+  }
+
+  ion-router-outlet.yk-with-sidenav {
+    left: 248px;
+    width: calc(100% - 248px);
+  }
+  ion-tabs.yk-tabs ion-tab-bar {
+    display: none;
+  }
+
+  // The logo already sits in the side navigation.
+  .yk-hero .yk-hero-top .yk-logo {
+    visibility: hidden;
+  }
+
+  .yk-page {
+    max-width: 760px;
+  }
+}
+
+@media (min-width: 1400px) {
+  :root {
+    --yk-gutter: max(32px, calc((100% - 1200px) / 2));
   }
 }

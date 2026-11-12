@@ -20,6 +20,10 @@ import { IonButton, IonContent, IonIcon } from '@ionic/angular';
         </div>
         <div class="yk-kente" aria-hidden="true"></div>
         <div class="yk-welcome-actions">
+          <div class="yk-welcome-cta">
+            <h2>Ready? Yenko!</h2>
+            <p>Sign up with your student ID and your &#64;st.ug.edu.gh email. It takes one minute.</p>
+          </div>
           <ion-button expand="block" routerLink="/register">Create my account</ion-button>
           <ion-button expand="block" fill="outline" color="secondary" routerLink="/login">I already have an account</ion-button>
         </div>
